@@ -13,7 +13,6 @@ class Tutorial < Gosu::Window
 
         @star_anim = Gosu::Image.load_tiles("media_star.png", 25, 25)
         @stars = Array.new
-
         @font = Gosu::Font.new(20)
     end
     def update
@@ -38,15 +37,7 @@ class Tutorial < Gosu::Window
         @background_image.draw(0,0,ZOrder::BACKGROUND) # where the imag0 is places
         @player.draw
         @stars.each {|star|star.draw}
-        @font.draw("Score: #{@player.score}", 10, 10, Zorder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
-    end
-    
-    def button_down(id)
-        if id == Gosu::KB_ESCAPE
-            close
-        else 
-            super
-        end 
+        @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0,Gosu::Color::YELLOW)
     end
 end 
 
@@ -98,14 +89,15 @@ class Player
     end 
 
     def collect_stars(stars)
-        stars.reject! { |star| Gosu.distance(@x, @y, star.x, star.y) < 35}
-            if Gosu.distance(@x, @y, star.x, star.y) <35
+        stars.reject! do |star|
+            if Gosu.distance(@x, @y, star.x, star.y) < 35
                 @score += 10
                 @beep.play
                 true
             else
                 false
             end 
+        end 
     end 
 end 
 module ZOrder
@@ -117,8 +109,8 @@ class Star
 
     def initialize(animation)
         @animation = animation
-        @color = Gosu::Color::Black.dup
-        @color.red = rand(256-40) + 40
+        @color = Gosu::Color::BLACK.dup
+        @color.red = rand(256 - 40) + 40
         @color.green = rand(256 - 40) + 40
         @color.blue = rand(256 - 40) + 40
         @x = rand * 640
@@ -133,5 +125,4 @@ class Star
 end 
 Tutorial.new.show
 
-# Player and Movement
 
